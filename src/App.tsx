@@ -1,15 +1,16 @@
-import { invoke } from "@tauri-apps/api/core";
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import "./App.css";
+import { invoke } from "@tauri-apps/api/core"
+import type React from "react"
+import { useState } from "react"
+import reactLogo from "./assets/react.svg"
+import "./App.css"
 
-function App() {
-	const [greetMsg, setGreetMsg] = useState("");
-	const [name, setName] = useState("");
+export default function App(): React.JSX.Element {
+	const [greetMsg, setGreetMsg] = useState("")
+	const [name, setName] = useState("")
 
-	async function greet() {
+	const greet = async (): Promise<void> => {
 		// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-		setGreetMsg(await invoke("greet", { name }));
+		setGreetMsg(await invoke("greet", { name }))
 	}
 
 	return (
@@ -31,21 +32,21 @@ function App() {
 
 			<form
 				className="row"
-				onSubmit={(e) => {
-					e.preventDefault();
-					greet();
+				onSubmit={(e: React.SubmitEvent<HTMLFormElement>): void => {
+					e.preventDefault()
+					greet()
 				}}
 			>
 				<input
 					id="greet-input"
-					onChange={(e) => setName(e.currentTarget.value)}
+					onChange={(
+						e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
+					): void => setName(e.currentTarget.value)}
 					placeholder="Enter a name..."
 				/>
 				<button type="submit">Greet</button>
 			</form>
 			<p>{greetMsg}</p>
 		</main>
-	);
+	)
 }
-
-export default App;
